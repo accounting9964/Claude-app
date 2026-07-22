@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -17,10 +16,10 @@ import { CaseKanban } from "@/components/case-kanban";
 import { STAGES, caseStage, hasBill, hasInvoice, type CaseRow } from "@/lib/case-stage";
 
 const searchSchema = z.object({
-  view: fallback(z.enum(["board", "table"]), "board").default("board"),
-  q: fallback(z.string(), "").default(""),
-  stage: fallback(z.string(), "").default(""),
-  attention: fallback(z.boolean(), false).default(false),
+  view: z.enum(["board", "table"]).catch("board").default("board"),
+  q: z.string().catch("").default(""),
+  stage: z.string().catch("").default(""),
+  attention: z.boolean().catch(false).default(false),
 });
 
 export const Route = createFileRoute("/_app/cases/")({
@@ -30,7 +29,7 @@ export const Route = createFileRoute("/_app/cases/")({
       { name: "description", content: "Track each vehicle purchase and sale from draft to closed." },
     ],
   }),
-  validateSearch: zodValidator(searchSchema),
+  validateSearch: searchSchema,
   component: CasesPage,
 });
 
