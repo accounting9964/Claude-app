@@ -6,11 +6,11 @@ const QBO_AUTH_URL = "https://appcenter.intuit.com/connect/oauth2";
 const QBO_TOKEN_URL = "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer";
 const QBO_SCOPES = "com.intuit.quickbooks.accounting openid email profile";
 
-export const QBO_REDIRECT_URI = (() => {
+function qboRedirectUri(): string {
   const v = process.env.QBO_REDIRECT_URI;
   if (!v) throw new Error("QBO_REDIRECT_URI is not configured");
   return v;
-})();
+}
 
 function secret(): string {
   const value = process.env.QBO_TOKEN_SECRET;
@@ -73,7 +73,7 @@ export function buildQboAuthorizationUrl(state: string): string {
     client_id: clientId,
     response_type: "code",
     scope: QBO_SCOPES,
-    redirect_uri: QBO_REDIRECT_URI,
+    redirect_uri: qboRedirectUri(),
     state,
   });
   return `${QBO_AUTH_URL}?${params.toString()}`;
@@ -96,7 +96,7 @@ export async function exchangeQboCode(code: string): Promise<TokenResponse> {
   const body = new URLSearchParams({
     grant_type: "authorization_code",
     code,
-    redirect_uri: QBO_REDIRECT_URI,
+    redirect_uri: qboRedirectUri(),
   });
 
   const response = await fetch(QBO_TOKEN_URL, {
