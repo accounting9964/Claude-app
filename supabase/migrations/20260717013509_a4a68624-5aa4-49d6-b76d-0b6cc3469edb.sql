@@ -1,0 +1,1 @@
+ALTER TABLE public.vehicle_models ALTER COLUMN make_id DROP NOT NULL;

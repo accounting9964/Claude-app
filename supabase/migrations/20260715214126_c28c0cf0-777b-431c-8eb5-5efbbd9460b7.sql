@@ -1,0 +1,5 @@
+ALTER TABLE public.cases
+  ADD COLUMN IF NOT EXISTS qbo_bill_id TEXT,
+  ADD COLUMN IF NOT EXISTS qbo_bill_synced_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS qbo_invoice_id TEXT,
+  ADD COLUMN IF NOT EXISTS qbo_invoice_synced_at TIMESTAMPTZ;

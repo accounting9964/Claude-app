@@ -1,0 +1,1 @@
+ALTER TABLE public.cases RENAME COLUMN has_seller_in_mind TO has_buyer_in_mind;

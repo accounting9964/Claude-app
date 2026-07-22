@@ -1,0 +1,1 @@
+ALTER TYPE public.contact_kind ADD VALUE IF NOT EXISTS 'lessee';
